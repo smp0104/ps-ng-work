@@ -14,6 +14,7 @@ imageWidth: number = 50;
 imageMargin: number = 2;
 imageBorder = {'border': '2px solid black'};
 showImage: boolean = false;
+errorMessage: any;
 _filterText: string;
 get filterText(): string {
 return this._filterText;
@@ -38,8 +39,10 @@ return this.products.filter((product: IProduct) => product.productName.toLocaleL
 
   }
   ngOnInit() {
- this.products = this.productService.getProducts();
-    this.filteredProducts = this.products;
+  this.productService.getProducts().subscribe(products => {this.products = products;this.filteredProducts = this.products;},
+    error => this.errorMessage = <any>error
+     );
+
     this.filterText = '';
   }
   onClickRating(msg: string) {
